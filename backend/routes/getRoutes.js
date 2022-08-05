@@ -1,10 +1,9 @@
 const express = require("express");
-
 const router = express.Router();
+const {getGoals}   = require("../controllers/goalController")
 
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "Getting goals..." });
-});
+router.get("/", getGoals);
+
 router.post("/", (req, res) => {
   res.status(200).json({ message: "setting goals..." });
 });
