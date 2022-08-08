@@ -21,7 +21,10 @@ const getGoal = (req, res) => {
 // @access Private
 
 const setGoal = (req, res) => {
-  console.log(req.body);
+  if (!req.body.text) {
+    res.status(400);
+    throw new Error(`Invalid JSON response  from server`);  
+  }
   res.status(200).json({ message: `Setting goal...}` });
 };
 
