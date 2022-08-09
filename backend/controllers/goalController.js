@@ -13,7 +13,6 @@ const getGoals = asyncHandler(async (req, res) => {
 // @route GET /api/goals/:id
 // @access Private
 const getGoal = asyncHandler(async (req, res) => {
-
   const goal = await Goal.findById(req.params.id);
   res.status(200).json(goal);
 });
@@ -36,17 +35,30 @@ const setGoal = asyncHandler(async (req, res) => {
 // @desc Update Goals
 // @route Put /api/goals/id
 // @access Private
-
 const updateGoal = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Updating goal... ${req.params.id}}` });
+  const goal = await Goal.findById(req.params.id);
+  if (!goal) {
+    res.status(400);
+    throw new Error(`Goal not found`);
+  }
+
+  const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  res.status(200).json(updatedGoal);
 });
 
 // @desc Delete Goals
 // @route delete /api/goal/:id
 // @access Private
-
 const deleteGoal = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete goal... ${req.params.id}` });
+  const goal = await Goal.findById(req.params.id);
+  if (!goal) {
+    res.status(400);
+    throw new Error(`Goal not found`);
+  }
+  await Goal.findOneAndDelete(req.params.id);
+  res.status(200).json("Goal deleted Successfully");
 });
 
 module.exports = {
