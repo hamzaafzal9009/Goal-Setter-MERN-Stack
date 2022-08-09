@@ -6,6 +6,10 @@ const Goal = require("../models/goalModal");
 // @access Private
 const getGoals = asyncHandler(async (req, res) => {
   const goals = await Goal.find();
+  if (!goal) {
+    res.status(400);
+    throw new Error(`Goal not found`);
+  }
   res.status(200).json(goals);
 });
 
@@ -58,6 +62,7 @@ const deleteGoal = asyncHandler(async (req, res) => {
     throw new Error(`Goal not found`);
   }
   await Goal.findOneAndDelete(req.params.id);
+  // await goal.remove(); 
   res.status(200).json("Goal deleted Successfully");
 });
 
