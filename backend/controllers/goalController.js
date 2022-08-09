@@ -1,16 +1,17 @@
 const asyncHandler = require("express-async-handler");
+const Goal = require("../models/goalModal");
+
 // @desc Get Goals
 // @route GET /api/goals/
 // @access Private
-
 const getGoals = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Getting goals..." });
+  const goals = await Goal.find();
+  res.status(200).json(goals);
 });
 
 // @desc Get Goals by ID
 // @route GET /api/goals/:id
 // @access Private
-
 const getGoal = asyncHandler(async (req, res) => {
   res.status(200).json({ message: `get goal... ${req.params.id}` });
 });
@@ -18,13 +19,16 @@ const getGoal = asyncHandler(async (req, res) => {
 // @desc Set Goals
 // @route POST /api/goals
 // @access Private
-
-const setGoal =  asyncHandler(async (req, res) => {
+const setGoal = asyncHandler(async (req, res) => {
   if (!req.body.text) {
     res.status(400);
     throw new Error(`Invalid JSON response  from server`);
   }
-  res.status(200).json({ message: `Setting goal...}` });
+
+  const goal = await Goal.create({
+    text: req.body.text,
+  });
+  res.status(200).json(goal);
 });
 
 // @desc Update Goals
