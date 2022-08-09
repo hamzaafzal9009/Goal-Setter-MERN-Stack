@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Users = require("../models/userModel");
 
 // @desc Registering User
-// @route POST /api/login/
+// @route POST /api/users/login/
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
   res.json({ message: "Registering user..." });
@@ -16,7 +16,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // @desc Getting User Data
-// @route GET /api/users/
+// @route GET /api/users/me
 // @access Public
 const getMe = asyncHandler(async (req, res) => {
     res.json({ message: "User" });
