@@ -5,8 +5,8 @@ const Goal = require("../models/goalModal");
 // @route GET /api/goals/
 // @access Private
 const getGoals = asyncHandler(async (req, res) => {
-  const goals = await Goal.find();
-  if (!goal) {
+  const goals = await Goal.find({ user: req.user.id });
+  if (!goals) {
     res.status(400);
     throw new Error(`Goal not found`);
   }
@@ -32,6 +32,7 @@ const setGoal = asyncHandler(async (req, res) => {
 
   const goal = await Goal.create({
     text: req.body.text,
+    user: req.user.id,
   });
   res.status(200).json(goal);
 });
@@ -62,7 +63,7 @@ const deleteGoal = asyncHandler(async (req, res) => {
     throw new Error(`Goal not found`);
   }
   await Goal.findOneAndDelete(req.params.id);
-  // await goal.remove(); 
+  // await goal.remove();
   res.status(200).json("Goal deleted Successfully");
 });
 
